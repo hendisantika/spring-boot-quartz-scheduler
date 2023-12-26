@@ -61,4 +61,14 @@ public class ScheduleController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping(value = "/{id}/$start", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Schedule> start(@PathVariable("id") UUID id) {
+        Schedule schedule = scheduleService.startSchedule(id);
+        if (schedule != null) {
+            return ResponseEntity.ok().body(schedule);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
