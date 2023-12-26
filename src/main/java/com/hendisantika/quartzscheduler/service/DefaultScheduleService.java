@@ -8,6 +8,9 @@ import org.quartz.impl.SchedulerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+import java.util.UUID;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-boot-quartz-scheduler
@@ -36,5 +39,10 @@ public class DefaultScheduleService implements ScheduleService {
         startSchedule(entity.getId());
 
         return schedule;
+    }
+
+    public Schedule getSchedule(UUID id) {
+        Optional<ScheduleEntity> result = schedulerRepository.findById(id);
+        return result.map(this::toResource).orElse(null);
     }
 }
