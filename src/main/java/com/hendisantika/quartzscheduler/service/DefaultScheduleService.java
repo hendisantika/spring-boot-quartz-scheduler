@@ -65,6 +65,9 @@ public class DefaultScheduleService implements ScheduleService {
                 .collect(Collectors.toList());
 
         return result;
+    }
 
+    public Schedule startSchedule(UUID id) {
+        return changeStatus(id, Status.ENABLED);
     }
 }
