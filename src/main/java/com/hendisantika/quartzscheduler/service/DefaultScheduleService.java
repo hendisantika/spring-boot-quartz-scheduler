@@ -70,4 +70,34 @@ public class DefaultScheduleService implements ScheduleService {
     public Schedule startSchedule(UUID id) {
         return changeStatus(id, Status.ENABLED);
     }
+
+    private Schedule changeStatus(UUID id, Status status) {
+        Schedule schedule = getSchedule(id);
+        if (schedule == null) {
+            log.info("Schedule not found {}", id);
+            return null;
+        }
+
+        if (schedule.getStatus().equals(status)) {
+            log.info("Schedule status is the same {}", id);
+            return schedule;
+        }
+
+        ScheduleEntity entity = schedulerRepository.findById(id).get();
+        entity.setStatus(status);
+        schedulerRepository.save(entity);
+
+        switch (status) {
+            case ENABLED:
+                scheduleEngine.start(schedule);
+                break;
+            case DISABLED:
+                scheduleEngine.stop(schedule);
+                break;
+            default:
+                break;
+        }
+
+        return getSchedule(entity.getId());
+    }
 }
