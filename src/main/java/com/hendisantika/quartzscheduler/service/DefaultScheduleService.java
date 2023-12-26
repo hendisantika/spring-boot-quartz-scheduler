@@ -3,9 +3,9 @@ package com.hendisantika.quartzscheduler.service;
 import com.hendisantika.quartzscheduler.entity.ScheduleEntity;
 import com.hendisantika.quartzscheduler.model.Schedule;
 import com.hendisantika.quartzscheduler.model.Status;
+import com.hendisantika.quartzscheduler.repository.SchedulerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.impl.SchedulerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,5 +107,14 @@ public class DefaultScheduleService implements ScheduleService {
         entity.setName(schedule.getName());
         entity.setStatus(schedule.getStatus());
         return entity;
+    }
+
+    private Schedule toResource(ScheduleEntity entity) {
+        Schedule resource = new Schedule();
+        resource.setId(entity.getId());
+        resource.setCron(entity.getCron());
+        resource.setName(entity.getName());
+        resource.setStatus(entity.getStatus());
+        return resource;
     }
 }
