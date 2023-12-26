@@ -100,4 +100,12 @@ public class DefaultScheduleService implements ScheduleService {
 
         return getSchedule(entity.getId());
     }
+
+    private ScheduleEntity toEntity(Schedule schedule) {
+        ScheduleEntity entity = new ScheduleEntity();
+        entity.setCron(schedule.getCron());
+        entity.setName(schedule.getName());
+        entity.setStatus(schedule.getStatus());
+        return entity;
+    }
 }
