@@ -1,5 +1,6 @@
 package com.hendisantika.quartzscheduler.service;
 
+import com.hendisantika.quartzscheduler.entity.ScheduleEntity;
 import com.hendisantika.quartzscheduler.model.Schedule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
