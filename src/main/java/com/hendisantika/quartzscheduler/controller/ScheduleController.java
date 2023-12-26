@@ -51,4 +51,14 @@ public class ScheduleController {
                 scheduleService.create(schedule)
         );
     }
+
+    @PostMapping(value = "/{id}/$stop", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Schedule> stop(@PathVariable("id") UUID id) {
+        Schedule schedule = scheduleService.stopSchedule(id);
+        if (schedule != null) {
+            return ResponseEntity.ok().body(schedule);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
