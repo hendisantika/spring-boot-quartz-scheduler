@@ -9,8 +9,11 @@ import org.quartz.impl.SchedulerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,5 +54,17 @@ public class DefaultScheduleService implements ScheduleService {
     @Transactional
     public Schedule stopSchedule(UUID id) {
         return changeStatus(id, Status.DISABLED);
+    }
+
+    @Override
+    public List<Schedule> getSchedules() {
+        Iterable<ScheduleEntity> entities = schedulerRepository.findAll();
+
+        List<Schedule> result = StreamSupport.stream(entities.spliterator(), false)
+                .map(this::toResource)
+                .collect(Collectors.toList());
+
+        return result;
+
     }
 }
