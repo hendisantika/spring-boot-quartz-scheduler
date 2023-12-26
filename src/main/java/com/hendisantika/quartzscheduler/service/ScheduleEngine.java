@@ -3,10 +3,7 @@ package com.hendisantika.quartzscheduler.service;
 import com.hendisantika.quartzscheduler.model.Schedule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -46,6 +43,14 @@ public class ScheduleEngine {
             );
         } catch (SchedulerException e) {
             log.error("Unable to schedule process {} for monitoring", schedule.getId());
+        }
+    }
+
+    public void stop(Schedule schedule) {
+        try {
+            scheduler.unscheduleJob(TriggerKey.triggerKey(schedule.getId().toString(), GROUP_ID));
+        } catch (SchedulerException e) {
+            log.warn("Unable to unschedule job with id {}", schedule.getId());
         }
     }
 }
