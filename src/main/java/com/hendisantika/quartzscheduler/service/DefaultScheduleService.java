@@ -2,6 +2,7 @@ package com.hendisantika.quartzscheduler.service;
 
 import com.hendisantika.quartzscheduler.entity.ScheduleEntity;
 import com.hendisantika.quartzscheduler.model.Schedule;
+import com.hendisantika.quartzscheduler.model.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.impl.SchedulerRepository;
@@ -44,5 +45,11 @@ public class DefaultScheduleService implements ScheduleService {
     public Schedule getSchedule(UUID id) {
         Optional<ScheduleEntity> result = schedulerRepository.findById(id);
         return result.map(this::toResource).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public Schedule stopSchedule(UUID id) {
+        return changeStatus(id, Status.DISABLED);
     }
 }
