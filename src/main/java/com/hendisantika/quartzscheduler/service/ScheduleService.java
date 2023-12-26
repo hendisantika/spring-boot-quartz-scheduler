@@ -1,5 +1,7 @@
 package com.hendisantika.quartzscheduler.service;
 
+import com.hendisantika.quartzscheduler.model.Schedule;
+
 import java.util.List;
 import java.util.UUID;
 
