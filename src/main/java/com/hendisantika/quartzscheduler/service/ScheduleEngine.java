@@ -7,6 +7,7 @@ import org.quartz.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -40,9 +41,9 @@ public class ScheduleEngine {
         try {
             scheduler.scheduleJobs(
                     Stream.of(
-                                    new SimpleImmutableEntry<>(jobDetail, Collections.singleton(logTrigger))
+                                    new AbstractMap.SimpleImmutableEntry<>(jobDetail, Collections.singleton(logTrigger))
                             )
-                            .collect(Collectors.toMap(SimpleImmutableEntry::getKey, SimpleImmutableEntry::getValue)),
+                            .collect(Collectors.toMap(AbstractMap.SimpleImmutableEntry::getKey, AbstractMap.SimpleImmutableEntry::getValue)),
                     true
             );
         } catch (SchedulerException e) {
