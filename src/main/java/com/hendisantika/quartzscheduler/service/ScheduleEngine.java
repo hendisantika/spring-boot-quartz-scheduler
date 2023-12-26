@@ -66,4 +66,12 @@ public class ScheduleEngine {
                 .withSchedule(cronSchedule(schedule.getCron()))
                 .build();
     }
+
+    private JobDetail createJobDetail(Schedule schedule) {
+        return JobBuilder.newJob()
+                .ofType(ScheduleTask.class)
+                .withIdentity(schedule.getId().toString(), GROUP_ID)
+                .usingJobData(PROCESS_ID_KEY, schedule.getId().toString())
+                .build();
+    }
 }
