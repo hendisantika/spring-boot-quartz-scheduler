@@ -6,9 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Collections;
+import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 
 /**
  * Created by IntelliJ IDEA.
@@ -52,5 +56,14 @@ public class ScheduleEngine {
         } catch (SchedulerException e) {
             log.warn("Unable to unschedule job with id {}", schedule.getId());
         }
+    }
+
+    private Trigger createTrigger(Schedule schedule) {
+        Instant now = Instant.now();
+        return TriggerBuilder.newTrigger()
+                .withIdentity(schedule.getId().toString(), GROUP_ID)
+                .startAt(new Date(now.toEpochMilli()))
+                .withSchedule(cronSchedule(schedule.getCron()))
+                .build();
     }
 }
